@@ -16,6 +16,7 @@ closeBtn.addEventListener('click', function () {
 //Canvas
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+let score = 0;
 
 //Create ball props
 const ball = {
@@ -37,7 +38,17 @@ const paddle = {
   dx: 0 //only moving on x axis
 };
 
-//Draw paddle on canvas
+
+// Draw ball on canvas
+function drawBall() {
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
+  ctx.fillStyle = '#0095dd';
+  ctx.fill();
+  ctx.closePath();
+}
+
+// Draw paddle on canvas
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddle.x, paddle.y, paddle.w, paddle.h);
@@ -46,14 +57,17 @@ function drawPaddle() {
   ctx.closePath();
 }
 
-//Draw ball on canvas
-function drawBall() {
-  ctx.beginPath();
-  ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2, true);
-  ctx.fillStyle = '#0095dd';
-  ctx.fill();
-  ctx.closePath();
-};
+// Draw score on canvas
+function drawScore() {
+  ctx.font = '20px Arial';
+  ctx.fillText(`Score: ${score}`, canvas.width - 100, 30);
+}
 
-drawBall();
-drawPaddle();
+//Draw everything
+function draw() {
+  drawBall();
+  drawPaddle();
+  drawScore();
+}
+
+draw();
