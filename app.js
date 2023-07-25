@@ -16,15 +16,19 @@ closeBtn.addEventListener('click', function () {
 //Canvas
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+
 let score = 0;
+
+const brickRowCount = 9;
+const brickColumnCount = 5;
 
 //Create ball props
 const ball = {
-  x: canvas.width / 2,      // x and y positioning to the center
-  y: canvas.height / 2,     // y vertically, x horizontally
-  size: 10,                 // the redious of the ball
-  speed: 4,                 // the speed the ball will move
-  dx: 4,                    //the speed of the direction on the x axis 
+  x: canvas.width / 2, // x and y positioning to the center
+  y: canvas.height / 2, // y vertically, x horizontally
+  size: 10, // the redious of the ball
+  speed: 4, // the speed the ball will move
+  dx: 4,  //the speed of the direction on the x axis 
   dy: -4,
 };
 
@@ -38,6 +42,26 @@ const paddle = {
   dx: 0 //only moving on x axis
 };
 
+//Create bricks props
+const brickInfo = {
+  w: 70,
+  h: 20,
+  padding: 10,
+  offsetX: 45,
+  offsetY: 60,
+  visible: true
+};
+
+//Create bricks
+const bricks = [];
+for (let i = 0; i < brickRowCount; i++) {
+  bricks[i] = [];
+  for (let j = 0; j < brickColumnCount; j++) {
+    const x = i * (brickInfo.w + brickInfo.padding) + brickInfo.offsetX;
+    const y = j * (brickInfo.h + brickInfo.padding) + brickInfo.offsetY;
+    bricks[i][j] = { x, y, ...brickInfo };
+  }
+}
 
 // Draw ball on canvas
 function drawBall() {
@@ -46,7 +70,7 @@ function drawBall() {
   ctx.fillStyle = '#0095dd';
   ctx.fill();
   ctx.closePath();
-}
+};
 
 // Draw paddle on canvas
 function drawPaddle() {
@@ -63,11 +87,24 @@ function drawScore() {
   ctx.fillText(`Score: ${score}`, canvas.width - 100, 30);
 }
 
+//Draw bricks on canvas
+function drawBricks() {
+  bricks.forEach(column => {
+    column.forEach(brick => {
+      ctx.beginPath();
+      ctx.rect(brick.x, brick.y, brick.w, brick.h);
+      ctx.fillStyle = brick.visible ? '#0095dd' : 'transparent';
+      ctx.fill();
+      ctx.closePath();
+    });
+  });
+}
 //Draw everything
 function draw() {
   drawBall();
   drawPaddle();
   drawScore();
+  drawBricks();
 }
 
 draw();
