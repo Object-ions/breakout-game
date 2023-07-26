@@ -1,4 +1,4 @@
-# Breakput! Game
+# Breakout! Game
 
 #### By **Moshe Atia Poston**
 
